@@ -1,13 +1,28 @@
-const http = require('http');
 
+//iniciar servidor segundo o video
+const express = require("express");
+const app = express();
+
+//creating a route
+app.get("/", (req, res) => {
+  res.send("home page")
+})
+
+app.listen(5000, () => {
+  console.log("server started on port 5000")
+} )
+
+
+//cenas abaixo poderam ser alteradas
+/*
+const http = require('http');
 const hostname = 'localhost';
-const express = require('express')
+
 var bodyParser = require('body-parser')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const mysql = require('mysql');
-const app = express()
-const port = 3000;
+
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
@@ -32,4 +47,4 @@ dbase.connect(function(err){
   
   console.log("Database Connected!");
   
-  });
+  });*/
