@@ -1,27 +1,27 @@
 
 //iniciar servidor
 const express = require("express");
+const path = require('path');
+const mysql = require("mysql");
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env'})
+
 const app = express();
 
-//creating a route
-app.get("/", (req, res) => {
-  res.send("home page")
-})
-
-app.listen(5000, () => {
-  console.log("server started on port 5000")
-} )
-
-
 //start my sql
-const mysql = require("mysql");
-
 const dbase = mysql.createConnection({
-  host:'localhost',
-  user: 'root',
-  password:'',
-  database:"pirate-treasure",
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password:process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE,
 });
+
+const publicDirectory = path.join(__dirname, './public');//constant from noejs that gives you access to the current directory that you are
+app.use(express.static(publicDirectory));
+
+
+app.set('view engine', 'hbs');
 
 dbase.connect( (error) => {
   if(error) {
@@ -30,6 +30,27 @@ dbase.connect( (error) => {
     console.log("Database Connected!");
   }
 });
+
+
+//creating a route
+app.get("/", (req, res) => {
+  //res.send("home page")
+  res.render("index");
+})
+
+app.get("/register", (req, res) => {
+  //res.send("home page")
+  res.render("register");
+})
+
+app.listen(5000, () => {
+  console.log("server started on port 5000")
+} )
+
+
+
+
+//
 
 //cenas abaixo poderam ser alteradas
 /*
